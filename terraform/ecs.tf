@@ -31,15 +31,6 @@ resource "aws_ecs_task_definition" "sejal_task" {
         protocol      = "tcp"
       }]
 
-      logConfiguration = {
-      logDriver = "awslogs"
-      options = {
-        awslogs-group         = aws_cloudwatch_log_group.strapi_logs.name
-        awslogs-region        = "us-east-1"
-        awslogs-stream-prefix = "ecs"
-      }
-    }
-
       environment = [
          {
             name  = "DATABASE_CLIENT"
@@ -129,8 +120,11 @@ resource "aws_ecs_service" "sejal_service" {
   name            = "sejal-service"
   cluster         = aws_ecs_cluster.sejal_cluster.id
   task_definition = aws_ecs_task_definition.sejal_task.arn
-  launch_type     = "FARGATE"
   desired_count   = 1
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE_SPOT"
+    weight            = 1
+  }
   load_balancer {
   target_group_arn = aws_lb_target_group.ecs_tg.arn
   container_name   = "sejal-container"  
