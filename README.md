@@ -23,7 +23,7 @@ User → ALB → ECS (Fargate Spot) → RDS
 Docker image stored in → ECR
 Infrastructure managed via → Terraform
 
-##Services Used
+## Services Used
 | Service        | Purpose                 |
 | -------------- | ----------------------- |
 | ECS            | Container orchestration |
