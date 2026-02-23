@@ -6,7 +6,7 @@ resource "aws_db_subnet_group" "db_subnet_group" {
 resource "aws_security_group" "rds_sg" {
   name        = "sejal-rds-sg"
   description = "Allow ECS to connect to RDS"
-  vpc_id      = data.aws_vpc.selected.id
+  vpc_id      = data.aws_vpc.default.id
 
   ingress {
     from_port       = 5432
