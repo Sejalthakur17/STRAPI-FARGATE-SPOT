@@ -1,81 +1,38 @@
-## Strapi Deployment on AWS ECS Fargate using Terraform + GitHub Actions
-📌 Project Overview
+## STRAPI on AWS Fargate Spot
+🚀 Project Overview
 
-This project deploys a Strapi application on AWS ECS Fargate, fully managed using Terraform and automated through GitHub Actions CI/CD.
+This project deploys a Strapi application on AWS using:
 
-The infrastructure includes:
+Amazon ECS
 
-Amazon ECS (Fargate launch type)
+AWS Fargate Spot (cost-optimized)
 
-Amazon ECR (for Docker images)
+Application Load Balancer (ALB)
 
-Amazon RDS (PostgreSQL – db.t3.micro, Single-AZ)
+Amazon ECR
 
-Amazon S3 (Terraform remote backend)
+Amazon RDS (PostgreSQL)
 
-VPC (default VPC usage)
+Default AWS VPC
 
-Security Groups
+Infrastructure managed with Terraform
 
-GitHub Actions workflow for CI/CD
+## Architecture
 
-Everything is deployed using Infrastructure as Code (IaC).
+User → ALB → ECS (Fargate Spot) → RDS
+Docker image stored in → ECR
+Infrastructure managed via → Terraform
 
-## Technologies Used
-
-AWS ECS (Fargate)
-
-AWS ECR
-
-AWS RDS (PostgreSQL – db.t3.micro, Single-AZ)
-
-AWS S3 (Terraform Backend)
-
-Terraform
-
-Docker
-
-GitHub Actions
-
-
-## CI/CD Workflow (GitHub Actions)
-
-On every push to main branch:
-
-Configure AWS credentials
-
-Login to Amazon ECR
-
-Build Docker image
-
-Tag image with commit SHA
-
-Push image to ECR
-
-Run Terraform apply
-
-Update ECS task revision automatically
-
-## Database Configuration
-
-RDS Configuration:
-
-Engine: PostgreSQL
-
-Instance type: db.t3.micro
-
-Deployment type: Single-AZ
-
-Public access: Disabled
-
-## Environment variables passed to ECS:
-
-DATABASE_CLIENT=postgres
-DATABASE_HOST=<RDS endpoint>
-DATABASE_PORT=5432
-DATABASE_NAME=postgres
-DATABASE_USERNAME=<username>
-DATABASE_PASSWORD=<password>
+##Services Used
+| Service        | Purpose                 |
+| -------------- | ----------------------- |
+| ECS            | Container orchestration |
+| Fargate Spot   | Cost-optimized compute  |
+| ALB            | Public traffic routing  |
+| ECR            | Docker image storage    |
+| RDS (Postgres) | Database backend        |
+| Default VPC    | Networking              |
+| Terraform      | Infrastructure as Code  |
 
 
 ## GitHub Secrets Required
@@ -88,12 +45,4 @@ AWS_SECRET_KEY
 
 ## Accessing Strapi
 
-After deployment:
-
-Go to ECS → Cluster → Service → Tasks
-
-Get the Public IP of the running task
-
-Open:
-
-http://public-ip:1337/admin
+http://<alb_dns_name>/admin
