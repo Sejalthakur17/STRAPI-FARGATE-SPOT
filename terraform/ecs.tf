@@ -99,7 +99,7 @@ resource "aws_ecs_task_definition" "sejal_task" {
 resource "aws_security_group" "ecs_sg" {
   name        = "sejal-ecs-sg"
   description = "Managed by Terraform"
-  vpc_id      = data.aws_vpc.selected.id
+  vpc_id      = data.aws_vpc.default.id
 
   ingress {
     from_port       = 1337

@@ -2,10 +2,9 @@
 # USE DEFAULT VPC
 ########################################
 
-data "aws_vpc" "selected" {
-  id = "vpc-0295253d470704295"
+data "aws_vpc" "default" {
+  default = true
 }
-
 ########################################
 # GET DEFAULT SUBNETS
 ########################################
@@ -13,7 +12,7 @@ data "aws_vpc" "selected" {
 data "aws_subnets" "default" {
   filter {
     name   = "vpc-id"
-    values = [data.aws_vpc.selected.id]
+    values = [data.aws_vpc.default.id]
   }
 }
 
